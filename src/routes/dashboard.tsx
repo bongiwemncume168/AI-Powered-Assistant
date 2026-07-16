@@ -6,7 +6,7 @@ import {
   Utensils,
   BedDouble,
   Users,
-  PackageAlert,
+  PackageOpen,
   Sparkles,
   Loader2,
   ArrowUpRight,
