@@ -446,7 +446,13 @@ function EmptyState({
   );
 }
 
-function MessageBubble({ msg }: { msg: ChatMsg }) {
+function MessageBubble({
+  msg,
+  capabilityLabel,
+}: {
+  msg: ChatMsg;
+  capabilityLabel: string;
+}) {
   const isUser = msg.role === "user";
   return (
     <div className={["flex gap-3", isUser ? "justify-end" : "justify-start"].join(" ")}>
@@ -457,16 +463,98 @@ function MessageBubble({ msg }: { msg: ChatMsg }) {
       )}
       <div
         className={[
-          "max-w-[85%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm leading-relaxed sm:text-[15px]",
+          "flex max-w-[85%] flex-col gap-2 rounded-2xl px-4 py-3 text-sm leading-relaxed sm:text-[15px]",
           isUser
             ? "bg-primary text-primary-foreground"
             : "bg-muted text-foreground",
         ].join(" ")}
       >
-        {msg.content}
+        <div className="whitespace-pre-wrap">{msg.content}</div>
+        {!isUser && !msg.content.startsWith("⚠️") && (
+          <div className="flex justify-end border-t border-border/60 pt-2">
+            <button
+              type="button"
+              onClick={() => exportMessageToPdf(msg.content, capabilityLabel)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1 text-[11px] font-medium text-foreground transition hover:border-primary/40 hover:bg-card"
+            >
+              <Download className="h-3 w-3" />
+              Export PDF
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
+}
+
+function exportMessageToPdf(content: string, capabilityLabel: string) {
+  const doc = new jsPDF({ unit: "pt", format: "letter" });
+  const marginX = 54;
+  const marginTop = 64;
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const contentWidth = pageWidth - marginX * 2;
+  const now = new Date();
+  const dateStr = now.toLocaleString(undefined, {
+    dateStyle: "long",
+    timeStyle: "short",
+  });
+
+  // Header
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(18);
+  doc.setTextColor(30, 30, 30);
+  doc.text("HopeSync", marginX, marginTop);
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.setTextColor(120, 120, 120);
+  doc.text(`${capabilityLabel} · ${dateStr}`, marginX, marginTop + 16);
+
+  doc.setDrawColor(220, 220, 220);
+  doc.line(marginX, marginTop + 26, pageWidth - marginX, marginTop + 26);
+
+  // Body — strip markdown symbols for cleaner print
+  const cleaned = content
+    .replace(/\*\*(.+?)\*\*/g, "$1")
+    .replace(/^#+\s+/gm, "")
+    .replace(/^\s*[-*]\s+/gm, "• ")
+    .replace(/`([^`]+)`/g, "$1");
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(11);
+  doc.setTextColor(30, 30, 30);
+
+  const lineHeight = 15;
+  let cursorY = marginTop + 48;
+  const lines = doc.splitTextToSize(cleaned, contentWidth) as string[];
+
+  for (const line of lines) {
+    if (cursorY > pageHeight - marginTop) {
+      doc.addPage();
+      cursorY = marginTop;
+    }
+    doc.text(line, marginX, cursorY);
+    cursorY += lineHeight;
+  }
+
+  // Footer
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFontSize(9);
+    doc.setTextColor(150, 150, 150);
+    doc.text(
+      `HopeSync · Page ${i} of ${pageCount}`,
+      pageWidth / 2,
+      pageHeight - 28,
+      { align: "center" },
+    );
+  }
+
+  const slug = capabilityLabel.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  const stamp = now.toISOString().slice(0, 10);
+  doc.save(`hopesync-${slug}-${stamp}.pdf`);
 }
 
 function Composer({
