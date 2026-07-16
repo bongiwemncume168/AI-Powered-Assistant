@@ -77,7 +77,7 @@ const KPIS = [
     value: 4,
     goal: 0,
     delta: "Coffee, milk, socks, hygiene kits",
-    icon: PackageAlert,
+    icon: PackageOpen,
     tone: "warn" as const,
   },
 ];
