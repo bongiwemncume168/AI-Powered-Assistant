@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -11,6 +11,7 @@ import {
   Send,
   RotateCcw,
   Loader2,
+  LayoutDashboard,
 } from "lucide-react";
 import { askHopeSync } from "@/lib/hopesync.functions";
 
@@ -237,16 +238,25 @@ function Header({ onReset, hasMessages }: { onReset: () => void; hasMessages: bo
           </div>
         </div>
       </div>
-      {hasMessages && (
-        <button
-          onClick={onReset}
-          className="inline-flex shrink-0 items-center gap-2 rounded-full border border-border bg-card px-3 py-2 text-sm text-foreground transition hover:bg-muted"
+      <div className="flex shrink-0 items-center gap-2">
+        <Link
+          to="/dashboard"
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-2 text-sm text-foreground transition hover:bg-muted"
         >
-          <RotateCcw className="h-3.5 w-3.5" />
-          <span className="hidden sm:inline">New conversation</span>
-          <span className="sm:hidden">New</span>
-        </button>
-      )}
+          <LayoutDashboard className="h-3.5 w-3.5" />
+          <span className="hidden sm:inline">Dashboard</span>
+        </Link>
+        {hasMessages && (
+          <button
+            onClick={onReset}
+            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-border bg-card px-3 py-2 text-sm text-foreground transition hover:bg-muted"
+          >
+            <RotateCcw className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">New conversation</span>
+            <span className="sm:hidden">New</span>
+          </button>
+        )}
+      </div>
     </header>
   );
 }
