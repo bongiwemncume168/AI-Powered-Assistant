@@ -40,6 +40,8 @@ export function SlideDeck() {
       else if (e.key === 'ArrowLeft' || e.key === 'PageUp') go(-1)
       else if (e.key === 'Home') setCurrent(0)
       else if (e.key === 'End') setCurrent(slides.length - 1)
+      else if (e.key === 'Escape' && !document.fullscreenElement)
+        setIsFullscreen(false)
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
@@ -53,8 +55,25 @@ export function SlideDeck() {
 
   const toggleFullscreen = useCallback(() => {
     const el = document.getElementById('deck-root')
-    if (!document.fullscreenElement) el?.requestFullscreen?.()
-    else document.exitFullscreen?.()
+    // The native Fullscreen API can be blocked by a permissions policy
+    // (e.g. inside a sandboxed preview iframe). Fall back to a CSS-based
+    // fullscreen so the feature still works everywhere.
+    try {
+      if (!document.fullscreenElement) {
+        const req = el?.requestFullscreen?.()
+        if (req && typeof req.catch === 'function') {
+          req.catch(() => setIsFullscreen((v) => !v))
+        }
+      } else {
+        const exit = document.exitFullscreen?.()
+        if (exit && typeof exit.catch === 'function') {
+          exit.catch(() => setIsFullscreen((v) => !v))
+        }
+      }
+    } catch {
+      // requestFullscreen threw synchronously — use the CSS fallback.
+      setIsFullscreen((v) => !v)
+    }
   }, [])
 
   const handleDownload = useCallback(async () => {
@@ -120,7 +139,11 @@ export function SlideDeck() {
       {/* Stage */}
       <main
         id="deck-root"
-        className="flex flex-1 flex-col items-center justify-center bg-background px-4 pb-4 md:px-8"
+        className={
+          isFullscreen
+            ? 'fixed inset-0 z-50 flex flex-col items-center justify-center bg-background px-4 py-4 md:px-8'
+            : 'flex flex-1 flex-col items-center justify-center bg-background px-4 pb-4 md:px-8'
+        }
       >
         <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center">
           <div className="relative aspect-video w-full overflow-hidden rounded-3xl border border-border shadow-xl shadow-primary/5">
