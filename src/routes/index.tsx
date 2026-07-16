@@ -70,6 +70,64 @@ const CAPABILITIES: Record<
   },
 };
 
+const SAMPLES: Record<Capability, { label: string; text: string }[]> = {
+  summarize: [
+    {
+      label: "Overnight shelter shift handover",
+      text: `Shift: Tue 11pm – Wed 7am
+On duty: Marcus (lead), Priya, Jamal (volunteer)
+
+- 42 guests checked in (capacity 48). 3 walk-ins after midnight, all placed.
+- New guest "Ms. R" arrived visibly cold, no ID. Intake waived per policy, assigned bed 17. Needs case-worker follow-up in the morning — she mentioned eviction last Friday.
+- Bed 9 (Mr. T) had a rough night, coughing. Gave water, checked temp (normal). Flag for nurse visit Wed afternoon.
+- Shower room drain backed up around 2am. Put "out of order" sign, texted facilities (Dan). Needs plumber before 7am service.
+- Breakfast prep: oatmeal + bananas ready in walk-in. Coffee urn cleaned. We're out of oat milk — please pick up.
+- Donations dropped at back door overnight: 4 bags winter coats (unsorted), 1 box canned goods. Left in intake office.
+- No incidents. Quiet night overall.
+
+Follow-ups for AM team:
+- Ms. R → case worker
+- Mr. T → nurse
+- Drain → facilities
+- Oat milk run
+- Sort coat donation`,
+    },
+    {
+      label: "Weekly staff meeting notes",
+      text: `HopeSync Kitchen — Weekly Staff Meeting, Mon 10am
+Present: Elena (director), Marcus, Priya, Sam, Dana (volunteer coord)
+
+- Meal counts up 18% vs last month. Averaging 220 lunches/day.
+- Holiday meal drive: Dana confirmed 34 volunteers signed up for Dec 23. Still need 6 more for the 2–5pm cleanup block.
+- Grant: United Way renewal due Dec 15. Elena drafting, needs program stats from Marcus by Fri.
+- Food bank partner (Second Harvest) shifting delivery from Wed to Thu starting next week. Update the intake schedule.
+- Guest feedback: two mentions this week that hot meals cool too fast at the outdoor line. Sam to price insulated trays.
+- New volunteer onboarding: batch orientation Sat 9am, 7 people confirmed. Priya leading.
+- Elena out Dec 27–Jan 2. Marcus is point of contact.`,
+    },
+  ],
+  draft: [
+    {
+      label: "Thank-you to a $500 monthly donor",
+      text: `Draft a warm thank-you email to Grace Community Church for their recurring $500 monthly gift. Mention it helps fund roughly 165 hot meals a month, and invite them to tour the kitchen during the holiday meal drive on Dec 23. Signed by Elena, Director.`,
+    },
+    {
+      label: "Recruit weekend volunteers",
+      text: `Draft an email to our volunteer list recruiting 6 more people for the Dec 23 holiday meal drive, 2–5pm cleanup block. Warm, appreciative tone. Include sign-up link placeholder and a note that food/coffee are provided. Signed by Dana, Volunteer Coordinator.`,
+    },
+  ],
+  plan: [
+    {
+      label: "Saturday breakfast service (8 volunteers)",
+      text: `Plan Saturday breakfast service, 6am–10am. 8 volunteers available. Expecting ~120 guests. Menu: oatmeal, eggs, fruit, coffee. Need coverage for: intake, serving line, dishwashing, floor support, and 7:30am donation drop-off from Sunrise Bakery.`,
+    },
+    {
+      label: "Weekday intake shift 7am–3pm",
+      text: `Draft a weekday intake shift plan, 7am–3pm. 3 staff (Marcus, Priya, one floater). Priorities: morning bed turnover, case-worker follow-up for Ms. R at 10am, nurse visit for Mr. T at 2pm, and a Second Harvest delivery Thu at noon. Flag any coverage gaps.`,
+    },
+  ],
+};
+
 function HopeSyncApp() {
   const [capability, setCapability] = useState<Capability>("summarize");
   const [input, setInput] = useState("");
@@ -185,6 +243,7 @@ function HopeSyncApp() {
               <EmptyState
                 capability={capability}
                 onPick={(s) => send(s)}
+                onLoadSample={(text) => setInput(text)}
               />
             ) : (
               <div className="flex flex-col gap-4">
@@ -319,11 +378,14 @@ function CapabilityPicker({
 function EmptyState({
   capability,
   onPick,
+  onLoadSample,
 }: {
   capability: Capability;
   onPick: (s: string) => void;
+  onLoadSample: (text: string) => void;
 }) {
   const meta = CAPABILITIES[capability];
+  const samples = SAMPLES[capability];
   return (
     <div className="flex flex-col items-center py-8 text-center">
       <div className="grid h-12 w-12 place-items-center rounded-2xl bg-warm text-warm-foreground">
@@ -347,6 +409,33 @@ function EmptyState({
           </button>
         ))}
       </div>
+      {samples.length > 0 && (
+        <div className="mt-6 w-full sm:max-w-lg">
+          <div className="mb-2 flex items-center gap-2 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+            <FileText className="h-3 w-3" />
+            Or load a sample
+          </div>
+          <div className="flex flex-col gap-2">
+            {samples.map((s) => (
+              <button
+                key={s.label}
+                onClick={() => onLoadSample(s.text)}
+                className="group flex items-start justify-between gap-3 rounded-xl border border-dashed border-border bg-warm/40 px-4 py-3 text-left text-sm text-foreground transition hover:border-primary/40 hover:bg-warm"
+              >
+                <div className="min-w-0">
+                  <div className="truncate font-medium">{s.label}</div>
+                  <div className="mt-0.5 line-clamp-2 text-xs text-muted-foreground">
+                    {s.text.split("\n").find((l) => l.trim()) ?? ""}
+                  </div>
+                </div>
+                <span className="shrink-0 self-center text-[11px] font-medium text-primary opacity-70 group-hover:opacity-100">
+                  Load →
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
