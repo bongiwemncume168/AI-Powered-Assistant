@@ -243,6 +243,7 @@ function HopeSyncApp() {
               <EmptyState
                 capability={capability}
                 onPick={(s) => send(s)}
+                onLoadSample={(text) => setInput(text)}
               />
             ) : (
               <div className="flex flex-col gap-4">
