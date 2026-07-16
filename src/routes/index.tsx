@@ -378,11 +378,14 @@ function CapabilityPicker({
 function EmptyState({
   capability,
   onPick,
+  onLoadSample,
 }: {
   capability: Capability;
   onPick: (s: string) => void;
+  onLoadSample: (text: string) => void;
 }) {
   const meta = CAPABILITIES[capability];
+  const samples = SAMPLES[capability];
   return (
     <div className="flex flex-col items-center py-8 text-center">
       <div className="grid h-12 w-12 place-items-center rounded-2xl bg-warm text-warm-foreground">
@@ -406,6 +409,33 @@ function EmptyState({
           </button>
         ))}
       </div>
+      {samples.length > 0 && (
+        <div className="mt-6 w-full sm:max-w-lg">
+          <div className="mb-2 flex items-center gap-2 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+            <FileText className="h-3 w-3" />
+            Or load a sample
+          </div>
+          <div className="flex flex-col gap-2">
+            {samples.map((s) => (
+              <button
+                key={s.label}
+                onClick={() => onLoadSample(s.text)}
+                className="group flex items-start justify-between gap-3 rounded-xl border border-dashed border-border bg-warm/40 px-4 py-3 text-left text-sm text-foreground transition hover:border-primary/40 hover:bg-warm"
+              >
+                <div className="min-w-0">
+                  <div className="truncate font-medium">{s.label}</div>
+                  <div className="mt-0.5 line-clamp-2 text-xs text-muted-foreground">
+                    {s.text.split("\n").find((l) => l.trim()) ?? ""}
+                  </div>
+                </div>
+                <span className="shrink-0 self-center text-[11px] font-medium text-primary opacity-70 group-hover:opacity-100">
+                  Load →
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
