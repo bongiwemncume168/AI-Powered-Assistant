@@ -87,10 +87,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "Less time behind a screen, more time serving your community. Summaries, emails, and schedules — done with warmth.",
+          "HopeSync is an AI workplace assistant for soup kitchens and shelters. Summarize handovers, draft warm emails, and plan volunteer shifts in seconds.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "HopeSync — AI Productivity for Non-profits" },
+      { name: "twitter:description", content: "HopeSync is an AI workplace assistant for soup kitchens and shelters. Summarize handovers, draft warm emails, and plan volunteer shifts in seconds." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4fc56dfd-c039-4251-a157-d4ecf58bb157/id-preview-b324df81--842ae3ae-b254-4664-b50f-cdac730ab5ff.lovable.app-1784192582504.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4fc56dfd-c039-4251-a157-d4ecf58bb157/id-preview-b324df81--842ae3ae-b254-4664-b50f-cdac730ab5ff.lovable.app-1784192582504.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
