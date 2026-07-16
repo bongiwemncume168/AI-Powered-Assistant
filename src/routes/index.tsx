@@ -12,7 +12,9 @@ import {
   RotateCcw,
   Loader2,
   LayoutDashboard,
+  Download,
 } from "lucide-react";
+import { jsPDF } from "jspdf";
 import { askHopeSync } from "@/lib/hopesync.functions";
 
 export const Route = createFileRoute("/")({
