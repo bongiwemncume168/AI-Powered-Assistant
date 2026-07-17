@@ -52,6 +52,7 @@ Confirm next week's volunteer schedule by Friday.
 AI Output
 
 Key Decisions
+
 Recruit additional volunteers for future shifts.
 Restock essential food supplies.
 
