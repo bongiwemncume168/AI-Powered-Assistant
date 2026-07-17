@@ -40,6 +40,7 @@ Example Prompt
 Condense volunteer coordinator notes into next steps.
 
 Sample Input
+
 We had 15 volunteers today.
 Two volunteers were absent.
 Breakfast service started 20 minutes late.
@@ -54,6 +55,7 @@ Recruit additional volunteers for future shifts.
 Restock essential food supplies.
 
 Action Items
+
 Order bread and milk.
 Schedule volunteer orientation.
 Deep clean the dining area.
@@ -81,6 +83,7 @@ Ensures important tasks are not missed
 Generate professional emails for staff, volunteers, donors, and community partners.
 
 Example Uses
+
 Thank volunteers
 Request donations
 Confirm volunteer schedules
@@ -98,6 +101,7 @@ Reduces repetitive writing
 Organize and prioritize daily activities.
 
 Example Tasks
+
 Order food supplies
 Prepare meal service
 Volunteer orientation
