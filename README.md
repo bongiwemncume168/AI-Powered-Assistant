@@ -29,7 +29,8 @@ Benefits
 
 Improves coordination
 Reduces scheduling conflicts
-Keeps everyone informed
+Keeps everyone informed  
+
 2. Shift Handover & Meeting Notes Summarizer
 
 Convert lengthy shift handovers or meeting notes into concise, organized summaries.
@@ -46,19 +47,25 @@ Bread and milk supplies are running low.
 Three new volunteers need orientation before Saturday.
 The dining area needs a deep clean.
 Confirm next week's volunteer schedule by Friday.
+
 AI Output
 Key Decisions
 Recruit additional volunteers for future shifts.
 Restock essential food supplies.
+
 Action Items
 Order bread and milk.
 Schedule volunteer orientation.
 Deep clean the dining area.
 Finalize next week's volunteer schedule.
+
 Guest & Volunteer Highlights
+
 15 volunteers served today.
 Two volunteers were absent.
+
 Follow-ups
+
 Confirm supplies have arrived.
 Verify orientation is completed.
 Ensure adequate staffing for the next shift.
@@ -68,6 +75,7 @@ Benefits
 Saves time reading lengthy notes
 Improves communication between shifts
 Ensures important tasks are not missed
+
 3. Smart Email Generator
 
 Generate professional emails for staff, volunteers, donors, and community partners.
@@ -84,6 +92,7 @@ Benefits
 Saves time
 Maintains professional communication
 Reduces repetitive writing
+
 4. Task Planner
 
 Organize and prioritize daily activities.
@@ -101,6 +110,7 @@ Benefits
 Keeps teams organized
 Improves accountability
 Tracks outstanding work
+
 5. Donation Campaign Assistant
 
 Support fundraising campaigns by helping teams create:
@@ -116,6 +126,7 @@ Benefits
 Encourages community engagement
 Saves time creating campaign content
 Supports fundraising efforts
+
 6. AI Research Assistant
 
 Quickly find information that helps non-profits improve operations.
@@ -133,13 +144,16 @@ Benefits
 Supports informed decision-making
 Reduces research time
 Helps organizations stay up to date
-Target Users
+
+Target Users 
+
 Soup Kitchens
 Homeless Shelters
 Food Banks
 Community Outreach Organisations
 Volunteer Coordinators
 Non-Profit Administrators
+
 Technology
 
 HopeSync AI can be built using technologies such as:
@@ -149,6 +163,7 @@ Backend: Node.js
 AI: OpenAI API
 Database: Supabase or Firebase
 Authentication: Clerk or Firebase Auth
+
 Why HopeSync AI?
 
 HopeSync AI helps organizations:
@@ -160,7 +175,9 @@ Produce professional communications
 Summarize shift handovers quickly
 Support fundraising campaigns
 Focus on helping people instead of paperwork
+
 Future Enhancements
+
 Volunteer availability calendar
 Inventory management
 Multi-language support
@@ -168,6 +185,7 @@ Voice-to-text shift handovers
 Mobile application
 Analytics dashboard
 Automated reminder notifications
+
 Mission
 
 HopeSync AI exists to empower non-profit organizations with practical AI tools that reduce administrative workload, improve collaboration, and allow staff and volunteers to focus on what matters most—serving their communities.
